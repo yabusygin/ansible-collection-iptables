@@ -1,0 +1,13 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: instance
+    image: "${TEST_IMAGE:-geerlingguy/docker-ubuntu2204-ansible:latest}"
+    pre_build_image: true
+    privileged: true
+    cgroupns_mode: host
+    command: ""
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    keep_volumes: false

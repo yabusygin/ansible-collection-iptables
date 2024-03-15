@@ -1,0 +1,14 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+
+--append=INPUT --in-interface=lo --jump=ACCEPT
+
+--append=INPUT --match=conntrack --ctstate=RELATED,ESTABLISHED --jump=ACCEPT
+--append=INPUT --match=conntrack --ctstate=INVALID --jump=DROP
+
+{% for service in iptables_rules_ipv4_services %}
+--append=INPUT --protocol={{ service.transport }} --match={{ service.transport }} --destination-port={{ service.port }} --jump=ACCEPT
+{% endfor %}
+COMMIT

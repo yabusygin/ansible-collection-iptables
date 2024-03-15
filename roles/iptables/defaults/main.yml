@@ -1,0 +1,4 @@
+---
+iptables_rules_ipv4: rules.v4.jinja
+iptables_rules_ipv6: rules.v6.jinja
+iptables_templates_lstrip_blocks: true
