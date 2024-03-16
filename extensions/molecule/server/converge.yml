@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: instance
+  gather_facts: false
+  tasks:
+    - name: Configure iptables
+      ansible.builtin.import_role:
+        name: iptables
+      vars:
+        iptables_rules_ipv4: rules.jinja
+        iptables_rules_ipv4_services:
+          - transport: tcp
+            port: 22
+          - transport: udp
+            port: 161

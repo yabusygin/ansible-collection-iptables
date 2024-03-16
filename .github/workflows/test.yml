@@ -1,0 +1,60 @@
+---
+name: Test
+on:
+  push:
+    branches:
+      - "**"
+env:
+  collection_directory: ansible_collections/yabusygin/netfilter
+jobs:
+  lint:
+    name: Run Ansible Lint checks
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ${{ env.collection_directory }}
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v4.1.1
+        with:
+          path: ${{ env.collection_directory }}
+      - name: Set up Python
+        uses: actions/setup-python@v5.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ${{ env.collection_directory }}/requirements*.txt
+      - name: Install requirements
+        run: python -m pip install --requirement=requirements.dev.txt
+      - name: Run Ansible Lint
+        run: ansible-lint roles/ extensions/molecule/
+  molecule:
+    name: Run Molecule tests
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        image:
+          - "geerlingguy/docker-debian11-ansible:latest"
+          - "geerlingguy/docker-ubuntu2204-ansible:latest"
+        scenario:
+          - default
+          - server
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v4.1.1
+        with:
+          path: ${{ env.collection_directory }}
+      - name: Set up Python
+        uses: actions/setup-python@v5.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ${{ env.collection_directory }}/requirements*.txt
+      - name: Install requirements
+        run: python -m pip install --requirement=requirements.dev.txt
+        working-directory: ${{ env.collection_directory }}
+      - name: Run Molecule
+        run: molecule test --scenario-name=${{ matrix.scenario }}
+        working-directory: ${{ env.collection_directory }}/extensions
+        env:
+          TEST_IMAGE: ${{ matrix.image }}

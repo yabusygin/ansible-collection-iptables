@@ -1,0 +1,38 @@
+---
+- name: Verify
+  hosts: instance
+  gather_facts: false
+  tasks:
+    - name: List IPv4 rules
+      ansible.builtin.command: iptables --list-rules
+      changed_when: false
+      register: _result
+
+    - name: Check IPv4 rules
+      ansible.builtin.assert:
+        that: _result.stdout_lines == _expect
+      vars:
+        _expect:
+          - "-P INPUT DROP"
+          - "-P FORWARD DROP"
+          - "-P OUTPUT ACCEPT"
+          - "-A INPUT -i lo -j ACCEPT"
+          - "-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT"
+          - "-A INPUT -m conntrack --ctstate INVALID -j DROP"
+
+    - name: List IPv6 rules
+      ansible.builtin.command: ip6tables --list-rules
+      changed_when: false
+      register: _result
+
+    - name: Check IPv6 rules
+      ansible.builtin.assert:
+        that: _result.stdout_lines == _expect
+      vars:
+        _expect:
+          - "-P INPUT DROP"
+          - "-P FORWARD DROP"
+          - "-P OUTPUT ACCEPT"
+          - "-A INPUT -i lo -j ACCEPT"
+          - "-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT"
+          - "-A INPUT -m conntrack --ctstate INVALID -j DROP"

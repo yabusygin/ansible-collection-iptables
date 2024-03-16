@@ -1,0 +1,23 @@
+---
+namespace: yabusygin
+name: netfilter
+version: 0.0.0
+readme: README.md
+authors:
+  - Alexey Busygin <yabusygin@gmail.com>
+description: Configure Netfilter based firewalling, NAT and packet mangling for Linux.
+license_file: LICENSE
+tags:
+  - firewall
+  - netfilter
+  - iptables
+repository: https://github.com/yabusygin/ansible-collection-netfilter
+issues: https://github.com/yabusygin/ansible-collection-netfilter/issues
+build_ignore:
+  - requirements.txt
+  - requirements.dev.txt
+  - test.sh
+  - extensions
+  - .config
+  - .github
+  - .gitignore

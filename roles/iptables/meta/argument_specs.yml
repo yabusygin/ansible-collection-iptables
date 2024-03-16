@@ -1,0 +1,11 @@
+---
+argument_specs:
+  main:
+    short_description: Configure persistent iptables rules
+    options:
+      iptables_rules_ipv4:
+        type: str
+        required: false
+      iptables_rules_ipv6:
+        type: str
+        required: false
