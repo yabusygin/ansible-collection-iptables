@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: Alexey Busygin
+  description: Configure persistent iptables rules
+  license: MIT
+  min_ansible_version: "2.16"
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - jammy

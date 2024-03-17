@@ -2,10 +2,35 @@
 argument_specs:
   main:
     short_description: Configure persistent iptables rules
+    description:
+      - >
+          The role configures persistent iptables rules. The rule persisnence is
+          ensured by the "iptables-persistent" package.
+    version_added: 0.1.0
+    author:
+      - Alexey Busygin
     options:
       iptables_rules_ipv4:
         type: str
         required: false
+        description:
+          - >
+              Specifies the path to file containing the iptables configuration
+              for IPv4.
+          - >
+              The configuration is defined as a Jinja template of iptables rules
+              dump produced by the "iptables-save" utility. For the default
+              configuration, see the role's "templates/rules.v4.jinja" file.
+        version_added: 0.1.0
       iptables_rules_ipv6:
         type: str
         required: false
+        description:
+          - >
+              Specifies the path to file containing the iptables configuration
+              for IPv6.
+          - >
+              The configuration is defined as a Jinja template of iptables rules
+              dump produced by the "ip6tables-save" utility. For the default
+              configuration, see the role's "templates/rules.v6.jinja" file.
+        version_added: 0.1.0
