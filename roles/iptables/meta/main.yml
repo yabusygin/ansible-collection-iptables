@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  author: Alexey Busygin
+  description: Configure persistent iptables rules
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - jammy
